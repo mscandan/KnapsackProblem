@@ -148,7 +148,7 @@ if __name__ == "__main__":
         testCase()
     elif isTestCase is 2:
         possCombs = everyPossibleCombination([10, 20, 30], 50)
-        combIndex = combIndexBul(possCombs, [60, 100, 120], [10, 20, 30])
+        combIndex = combIndexBul(possCombs, [60, 100, 120])
         print(combIndex)
     else:
         # Kullanicidan alinan degerlerin alinmasi ve daha sonra kullanmak uzere degiskenlere atanmasi
