@@ -81,13 +81,11 @@ def knapsack(kapasite, agirlik, value, esyaSayisi):
         return max(value[esyaSayisi - 1] + knapsack(kapasite - agirlik[esyaSayisi - 1], agirlik, value, esyaSayisi - 1), knapsack(kapasite, agirlik, value, esyaSayisi-1))
 
 
-def everyPossibleCombination():
+def everyPossibleCombination(agirlik, kapasite):
     """
-    Kullanicidan alinan agirliklara ait tum kombinasyonlari alir ve kapasiteye uygun olmayanlari filtreleyerek 
+    Kullanicidan alinan agirliklara ait tum kombinasyonlari alir ve kapasiteye uygun olmayanlari filtreleyerek
     tum olasi kombinasyonlari return eder
     """
-    agirlik = [10, 20, 30, 40, 50]
-    kapasite = 60
     combs = sum([list(map(list, combinations(agirlik, i)))
                  for i in range(len(agirlik) + 1)], [])
     # tum kombinasyonlarda ilk eleman [] olarak gelmektedir o eleman diziden atilir
@@ -97,9 +95,21 @@ def everyPossibleCombination():
     for i in range(0, len(combs)):
         if toplamAgirlikBul(combs[i]) <= kapasite:
             possCombs.append(combs[i])
-    for i in possCombs:
-        print(i)
     return possCombs
+
+
+def combIndexBul(kombinasyonlar, value, agirlik):
+    """
+    Gecerli tum kombinasyonlari bulunan agirlik degerlerinin kullanicidan alinan agirlik degerleri dizisinde sahip oldugu indexleri bulur
+    """
+    indexler = kombinasyonlar
+    for i in range(0, len(kombinasyonlar)):
+        for j in range(0, len(kombinasyonlar[i])):
+            for k in range(0, len(agirlik)):
+                # Eger kombinasyonlar icerisinde bulunan agirlik orijinal agirlik dizisinde bulunan bir elemanin agirligina esitse o elemanin agirliklar dizisindeki indexini dondurur
+                if kombinasyonlar[i][j] == agirlik[k]:
+                    indexler[i][j] = k
+    return indexler
 
 
 def toplamAgirlikBul(comb):
@@ -120,16 +130,20 @@ def testCase():
     esyaSayisi = len(value)
     print(knapsack(kapasite, agirlik, value, esyaSayisi))
 
+
     # Program baslar
 if __name__ == "__main__":
     # Test Case
     print("Test Case -> 1")
     print("Every possible combination -> 2")
+
     isTestCase = int(input("Secim = "))
     if isTestCase is 1:
         testCase()
     elif isTestCase is 2:
-        everyPossibleCombination()
+        possCombs = everyPossibleCombination([10, 20, 30], 50)
+        combIndex = combIndexBul(possCombs, [60, 100, 120], [10, 20, 30])
+        print(combIndex)
     else:
         # Kullanicidan alinan degerlerin alinmasi ve daha sonra kullanmak uzere degiskenlere atanmasi
         kapasite, agirlik, value, esyaSayisi = kullanicidanDegerAl()
