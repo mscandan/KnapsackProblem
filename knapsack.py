@@ -10,6 +10,7 @@
     Çanta içinde taşınabilecek tüm maddelerin toplam ağırlığının en çok W olup, bunun bir üst sınır olup aşılamayacağı bilinir.
     https://tr.wikipedia.org/wiki/S%C4%B1rt_%C3%A7antas%C4%B1_problemi
 """
+from itertools import combinations
 
 
 def kullanicidanDegerAl():
@@ -80,6 +81,38 @@ def knapsack(kapasite, agirlik, value, esyaSayisi):
         return max(value[esyaSayisi - 1] + knapsack(kapasite - agirlik[esyaSayisi - 1], agirlik, value, esyaSayisi - 1), knapsack(kapasite, agirlik, value, esyaSayisi-1))
 
 
+def everyPossibleCombination():
+    """
+    Kullanicidan alinan agirliklara ait tum kombinasyonlari alir ve kapasiteye uygun olmayanlari filtreleyerek 
+    tum olasi kombinasyonlari return eder
+    """
+    agirlik = [10, 20, 30, 40, 50]
+    kapasite = 60
+    combs = sum([list(map(list, combinations(agirlik, i)))
+                 for i in range(len(agirlik) + 1)], [])
+    # tum kombinasyonlarda ilk eleman [] olarak gelmektedir o eleman diziden atilir
+    combs.pop(0)
+    # tum olasiklarin icerisinde gezerek agirlik toplamlari max kapasiteden kucuk veya esit olanlari mumkun olanlar dizine ekler
+    possCombs = []
+    for i in range(0, len(combs)):
+        if toplamAgirlikBul(combs[i]) <= kapasite:
+            possCombs.append(combs[i])
+    for i in possCombs:
+        print(i)
+    return possCombs
+
+
+def toplamAgirlikBul(comb):
+    toplam = 0
+    if len(comb) is 1:
+        toplam = comb[0]
+        return toplam
+    else:
+        for i in range(0, len(comb)):
+            toplam = toplam + int(comb[i])
+        return toplam
+
+
 def testCase():
     value = [60, 100, 120]
     agirlik = [10, 20, 30]
@@ -89,9 +122,14 @@ def testCase():
 
     # Program baslar
 if __name__ == "__main__":
-    isTestCase = int(input("Test Case = "))
+    # Test Case
+    print("Test Case -> 1")
+    print("Every possible combination -> 2")
+    isTestCase = int(input("Secim = "))
     if isTestCase is 1:
         testCase()
+    elif isTestCase is 2:
+        everyPossibleCombination()
     else:
         # Kullanicidan alinan degerlerin alinmasi ve daha sonra kullanmak uzere degiskenlere atanmasi
         kapasite, agirlik, value, esyaSayisi = kullanicidanDegerAl()
