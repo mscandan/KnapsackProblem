@@ -98,7 +98,7 @@ def everyPossibleCombination(agirlik, kapasite):
     return possCombs
 
 
-def combIndexBul(kombinasyonlar, value, agirlik):
+def combIndexBul(kombinasyonlar, agirlik):
     """
     Gecerli tum kombinasyonlari bulunan agirlik degerlerinin kullanicidan alinan agirlik degerleri dizisinde sahip oldugu indexleri bulur
     """
@@ -110,6 +110,13 @@ def combIndexBul(kombinasyonlar, value, agirlik):
                 if kombinasyonlar[i][j] == agirlik[k]:
                     indexler[i][j] = k
     return indexler
+
+
+def maxValue():
+    """
+    Mumkun olan tum kombinasyonlar arasinda en fazla value sahip olan kombinasyonu ve value degerini dondurur
+    """
+    return "max value ve kombinasyon"
 
 
 def toplamAgirlikBul(comb):
@@ -129,7 +136,6 @@ def testCase():
     kapasite = 50
     esyaSayisi = len(value)
     print(knapsack(kapasite, agirlik, value, esyaSayisi))
-
 
     # Program baslar
 if __name__ == "__main__":
