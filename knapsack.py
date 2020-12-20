@@ -66,21 +66,6 @@ def valueVeAgirlikYazdir(value, agirlik):
         print(i+1, ". esyanin value degeri = ", value[i], "\n")
 
 
-def knapsack(kapasite, agirlik, value, esyaSayisi):
-    """
-    Sirt cantasinda tasinabilecek maksimum degeri dondurur
-    """
-    # Eger koyulacak esya veya kapasite kalmamissa program 0 dondurur
-    if esyaSayisi == 0 or kapasite == 0:
-        return 0
-    # Eger eklenecek olan esyanin agirligi kapasiteden buyukse sonraki esyaya gecilir
-    if(agirlik[esyaSayisi - 1] > kapasite):
-        return knapsack(kapasite, agirlik, value, esyaSayisi - 1)
-    # Esya eklenecek durumda ise esyayi ekler ve sonraki esyaya gecer ya da eklemeden sonraki esyaya gecer karar verme hangi ikisi maksimumsa o sekilde olur
-    else:
-        return max(value[esyaSayisi - 1] + knapsack(kapasite - agirlik[esyaSayisi - 1], agirlik, value, esyaSayisi - 1), knapsack(kapasite, agirlik, value, esyaSayisi-1))
-
-
 def everyPossibleCombination(agirlik, kapasite):
     """
     Kullanicidan alinan agirliklara ait tum kombinasyonlari alir ve kapasiteye uygun olmayanlari filtreleyerek
@@ -116,7 +101,23 @@ def maxValue(combIndex, value):
     """
     Mumkun olan tum kombinasyonlar arasinda en fazla value sahip olan kombinasyonu ve value degerini dondurur
     """
-    return "max value ve kombinasyon"
+    values = []
+    for i in combIndex:
+        total = combValue(i, value)
+        values.append(total)
+    # Tum value degerleri arasindan en buyuk degeri getirir
+    optValue = 0
+    for i in range(0, len(values)):
+        if values[i] > optValue:
+            optValue = values[i]
+    return optValue
+
+
+def combValue(comb, value):
+    total = 0
+    for i in comb:
+        total = total + value[i]
+    return total
 
 
 def toplamAgirlikBul(comb):
@@ -130,29 +131,16 @@ def toplamAgirlikBul(comb):
         return toplam
 
 
-def testCase():
-    value = [60, 100, 120]
-    agirlik = [10, 20, 30]
-    kapasite = 50
-    esyaSayisi = len(value)
-    print(knapsack(kapasite, agirlik, value, esyaSayisi))
+def showResults(optCombIndex, optValue):
+    print("Optimum value =", optValue)
+    print("Optimum comb index =", optCombIndex)
+
 
     # Program baslar
 if __name__ == "__main__":
-    # Test Case
-    print("Test Case -> 1")
-    print("Every possible combination -> 2")
-
-    isTestCase = int(input("Secim = "))
-    if isTestCase is 1:
-        testCase()
-    elif isTestCase is 2:
-        possCombs = everyPossibleCombination([10, 20, 30], 50)
-        print("Possible combinations =", possCombs)
-        combIndex = combIndexBul(possCombs, [10, 20, 30])
-        print("Possible comb indexes =", combIndex)
-    else:
-        # Kullanicidan alinan degerlerin alinmasi ve daha sonra kullanmak uzere degiskenlere atanmasi
-        kapasite, agirlik, value, esyaSayisi = kullanicidanDegerAl()
-        print(knapsack(kapasite, agirlik, value, esyaSayisi))
-        valueVeAgirlikYazdir(value, agirlik)
+    # Kullanicidan alinan degerlerin alinmasi ve daha sonra kullanmak uzere degiskenlere atanmasi
+    kapasite, agirlik, degerler, esyaSayisi = kullanicidanDegerAl()
+    tumKombinasyonlar = everyPossibleCombination(agirlik, kapasite)
+    optimumKombinasyonIndex = combIndexBul(tumKombinasyonlar, agirlik)
+    optimumSonuc = maxValue(optimumKombinasyonIndex, degerler)
+    print("Optimum sonuc =", optimumSonuc)
