@@ -56,16 +56,6 @@ def kullanicidanDegerAl():
     return sirtCantasiKapasite, esyaAgirlik, esyaValue, esyaSayisi
 
 
-def valueVeAgirlikYazdir(value, agirlik):
-    """
-    Kullanicidan alinan esyalara ait value ve agirlik degerlerini ekrana yazdiran fonksiyon
-    """
-    # print(chr(27) + "[2J")  # Terminal ekranini temizler
-    for i in range(0, len(value)):
-        print(i+1, ". esyanin agirlik degeri = ", agirlik[i])
-        print(i+1, ". esyanin value degeri = ", value[i], "\n")
-
-
 def everyPossibleCombination(agirlik, kapasite):
     """
     Kullanicidan alinan agirliklara ait tum kombinasyonlari alir ve kapasiteye uygun olmayanlari filtreleyerek
@@ -114,6 +104,9 @@ def maxValue(combIndex, value):
 
 
 def combValue(comb, value):
+    """
+    Bir kombinasyonun sahip oldugu value degerini dondurur
+    """
     total = 0
     for i in comb:
         total = total + value[i]
@@ -121,6 +114,9 @@ def combValue(comb, value):
 
 
 def toplamAgirlikBul(comb):
+    """
+    Bir kombinasyonun sahip oldugu toplam agirlik degerini dondurur
+    """
     toplam = 0
     if len(comb) is 1:
         toplam = comb[0]
@@ -129,11 +125,6 @@ def toplamAgirlikBul(comb):
         for i in range(0, len(comb)):
             toplam = toplam + int(comb[i])
         return toplam
-
-
-def showResults(optCombIndex, optValue):
-    print("Optimum value =", optValue)
-    print("Optimum comb index =", optCombIndex)
 
 
     # Program baslar
