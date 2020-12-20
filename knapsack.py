@@ -98,21 +98,21 @@ def everyPossibleCombination(agirlik, kapasite):
     return possCombs
 
 
-def combIndexBul(kombinasyonlar, agirlik):
+def combIndexBul(combs, weight):
     """
     Gecerli tum kombinasyonlari bulunan agirlik degerlerinin kullanicidan alinan agirlik degerleri dizisinde sahip oldugu indexleri bulur
     """
-    indexler = kombinasyonlar
-    for i in range(0, len(kombinasyonlar)):
-        for j in range(0, len(kombinasyonlar[i])):
-            for k in range(0, len(agirlik)):
+    indexler = combs
+    for i in range(0, len(combs)):
+        for j in range(0, len(combs[i])):
+            for k in range(0, len(weight)):
                 # Eger kombinasyonlar icerisinde bulunan agirlik orijinal agirlik dizisinde bulunan bir elemanin agirligina esitse o elemanin agirliklar dizisindeki indexini dondurur
-                if kombinasyonlar[i][j] == agirlik[k]:
+                if combs[i][j] == weight[k]:
                     indexler[i][j] = k
     return indexler
 
 
-def maxValue():
+def maxValue(combIndex, value):
     """
     Mumkun olan tum kombinasyonlar arasinda en fazla value sahip olan kombinasyonu ve value degerini dondurur
     """
@@ -148,8 +148,9 @@ if __name__ == "__main__":
         testCase()
     elif isTestCase is 2:
         possCombs = everyPossibleCombination([10, 20, 30], 50)
-        combIndex = combIndexBul(possCombs, [60, 100, 120])
-        print(combIndex)
+        print("Possible combinations =", possCombs)
+        combIndex = combIndexBul(possCombs, [10, 20, 30])
+        print("Possible comb indexes =", combIndex)
     else:
         # Kullanicidan alinan degerlerin alinmasi ve daha sonra kullanmak uzere degiskenlere atanmasi
         kapasite, agirlik, value, esyaSayisi = kullanicidanDegerAl()
