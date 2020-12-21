@@ -5,3 +5,6 @@
     - Mehmet Selcuk Candan B171210104 selcuk.candan@ogr.sakarya.edu.tr
     - Serhat Burak Altinsoy B161210010 serhat.altinsoy@ogr.sakarya.edu.tr
 
+
+### Knapsack problemi cozumu
+
