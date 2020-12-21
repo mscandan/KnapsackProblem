@@ -14,81 +14,42 @@ from itertools import combinations
 import sys
 import os
 import tkinter as tk
-
-__DEBUG__ = False  # test-case yapiliyor mu
+from tkinter.constants import CENTER
 
 
 def degerleriDondur():
-    print("annen nerede")
+    """
+    Hesapla butonu calistiginda kullanicinin girdigi derlerin alinmasi ve ekranda hesaplatilmasi
+    """
+    print("calisti")
+    kapasitePure = int(
+        e1.get())  # kullaninin girdigi kapasite degerinin alinmasi
+    # kullanicinin girdigi agirlik degerlerinin alinmasi ve ',' karakterine gore bolunerek bir diziye atanmasi
+    agirliklarPure = e2.get().split(",")
+    # kullanicinin girdigi value degerlerinin alinmasi ve ',' karakterine gore bolunerek bir diziye atanmasi
+    valueDegerleriPure = e3.get().split(",")
+    # Kullanicidan alinan string degerlerin kullanilabilmesi icin int'e cevrilmesi
+    agirliklarInt = []
+    valueInt = []
+    for i in agirliklarPure:
+        agirliklarInt.append(int(i))
+    for i in valueDegerleriPure:
+        valueInt.append(int(i))
+
+    tumKombinasyonlar = everyPossibleCombination(agirliklarInt, kapasitePure)
+    optimumKombinasyonIndex = combIndexBul(tumKombinasyonlar, agirliklarInt)
+    optimumSonuc = maxValue(optimumKombinasyonIndex, valueInt)
+    outputLabel.config(text="Sonuc = " + str(optimumSonuc))
 
 
-"""
-GUI tasarimi
-"""
-if os.environ.get('DISPLAY', '') == '':
-    print('no display found. Using :0.0')
-    os.environ.__setitem__('DISPLAY', ':0.0')
-master = tk.Tk()
-tk.Label(master, text="Sirt cantasi kapasitesi").grid(row=0)
-tk.Label(master, text="Agirliklar").grid(row=1)
-tk.Label(master, text="Value Degerleri").grid(row=2)
-
-e1 = tk.Entry(master)
-e2 = tk.Entry(master)
-e3 = tk.Entry(master)
-
-e1.grid(row=0, column=1)
-e2.grid(row=1, column=1)
-e3.grid(row=2, column=1)
-tk.Button(master,
-          text='Hesapla', command=degerleriDondur).grid(row=3,
-                                                        column=1,
-                                                        sticky=tk.W,
-                                                        pady=4)
-tk.mainloop()
-
-
-def kullanicidanDegerAl():
+def kullanicidanDegerAta(_kapasite, _agirliklar, _valueInt):
     """
     Kullanicidan programin calismasi icin gerekli olan degerleri alan ve aldigi degerleri donduren fonksiyon
     """
-    # Esya sayisinin alinmasi ve kontrol edilmesi
-    esyaSayisi = int(input("Kac esya olacagini giriniz: "))
-    while esyaSayisi <= 0:
-        print("Hatali sayi girdiniz esya sayisi negatif veya sifir olamaz")
-        esyaSayisi = int(input("Kac esya olacagini giriniz: "))
-    # Esya sayisinin alinmasi ve kontrol edilmesi tamamlandi
-    # Sirt cantasi kapasitesinin alinmasi ve kontrol edilmesi
-    sirtCantasiKapasite = int(input("Sirt cantasi kapasitesini giriniz: "))
-    while sirtCantasiKapasite <= 0:
-        print("Hatali deger girdiniz sirt cantasi kapasitesi negatif veya sifir olamaz")
-        sirtCantasiKapasite = int(input("Sirt cantasi kapasitesini giriniz: "))
-    # Sirt cantasi kapasitesinin alinmasi ve kontrol edilmesi tamamlandi
-    # Girdilerin alinmasi
-    girdiSayac = 0
-    esyaAgirlik = []
-    esyaValue = []
-    while girdiSayac < esyaSayisi:
-        print(girdiSayac + 1, ". esya icin agirlik ve value degerlerini giriniz")
-        # Esyanin agirlik degerinin alinmasi ve kontrolu
-        esyaAgirlik.append(int(
-            input("Agirlik degerini giriniz: ")))
-        while esyaAgirlik[girdiSayac] <= 0:
-            print("Hatali deger girdiniz agirlik degeri negatif veya sifir olamaz")
-            esyaAgirlik[girdiSayac] = int(
-                input("Agirlik degerini giriniz: "))
-        # Esyanin agirlik degerinin alinmasi ve kontrolu tamamlandi
-        # Esyanin value degerinin alinmasi ve kontrolu
-        esyaValue.append(int(
-            input("Value degerini giriniz: ")))
-        while esyaValue[girdiSayac] <= 0:
-            print("Hatali deger girdiniz value degeri negatif veya sifir olamaz")
-            esyaValue[girdiSayac] = int(
-                input("Value degerini giriniz: "))
-        # Esyanin value degerinin alinmasi ve kontrolu tamamlandi
-        girdiSayac = girdiSayac + 1
-    # Girdilerin alinmasi tamamlandi
-    return sirtCantasiKapasite, esyaAgirlik, esyaValue, esyaSayisi
+    sirtCantasiKapasite = _kapasite
+    esyaAgirlik = _agirliklar
+    esyaValue = _valueInt
+    return sirtCantasiKapasite, esyaAgirlik, esyaValue
 
 
 def everyPossibleCombination(agirlik, kapasite):
@@ -162,12 +123,34 @@ def toplamAgirlikBul(comb):
         return toplam
 
 
-    # Program baslar
-if __name__ == "__main__":
-    if(__DEBUG__):
-        # Kullanicidan alinan degerlerin alinmasi ve daha sonra kullanmak uzere degiskenlere atanmasi
-        kapasite, agirlik, degerler, esyaSayisi = kullanicidanDegerAl()
-        tumKombinasyonlar = everyPossibleCombination(agirlik, kapasite)
-        optimumKombinasyonIndex = combIndexBul(tumKombinasyonlar, agirlik)
-        optimumSonuc = maxValue(optimumKombinasyonIndex, degerler)
-        print("Optimum sonuc =", optimumSonuc)
+"""
+GUI tasarimi
+"""
+if os.environ.get('DISPLAY', '') == '':
+    os.environ.__setitem__('DISPLAY', ':0.0')
+master = tk.Tk()
+master.title("Knapsack Algoritmasi")
+master.geometry("200x300")
+master.resizable(0, 0)
+tk.Label(master, text="Sirt cantasi kapasitesi").grid(row=0)
+tk.Label(master, text="Agirliklar").grid(row=2)
+tk.Label(master, text="Value Degerleri").grid(row=4)
+outputLabel = tk.Label(master, text="Sonuc")
+outputLabel.grid(row=7, column=0)
+outputLabel.config(anchor=CENTER)
+
+e1 = tk.Entry(master)
+e2 = tk.Entry(master)
+e3 = tk.Entry(master)
+
+e1.grid(row=1, column=0)
+e2.grid(row=3, column=0)
+e3.grid(row=5, column=0)
+
+tk.Button(master,
+          text='Hesapla', command=degerleriDondur).grid(row=6,
+                                                        column=0,
+                                                        sticky=tk.W,
+                                                        pady=4,
+                                                        padx=30)
+tk.mainloop()
