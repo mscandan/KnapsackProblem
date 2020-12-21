@@ -11,6 +11,41 @@
     https://tr.wikipedia.org/wiki/S%C4%B1rt_%C3%A7antas%C4%B1_problemi
 """
 from itertools import combinations
+import sys
+import os
+import tkinter as tk
+
+__DEBUG__ = False  # test-case yapiliyor mu
+
+
+def degerleriDondur():
+    print("annen nerede")
+
+
+"""
+GUI tasarimi
+"""
+if os.environ.get('DISPLAY', '') == '':
+    print('no display found. Using :0.0')
+    os.environ.__setitem__('DISPLAY', ':0.0')
+master = tk.Tk()
+tk.Label(master, text="Sirt cantasi kapasitesi").grid(row=0)
+tk.Label(master, text="Agirliklar").grid(row=1)
+tk.Label(master, text="Value Degerleri").grid(row=2)
+
+e1 = tk.Entry(master)
+e2 = tk.Entry(master)
+e3 = tk.Entry(master)
+
+e1.grid(row=0, column=1)
+e2.grid(row=1, column=1)
+e3.grid(row=2, column=1)
+tk.Button(master,
+          text='Hesapla', command=degerleriDondur).grid(row=3,
+                                                        column=1,
+                                                        sticky=tk.W,
+                                                        pady=4)
+tk.mainloop()
 
 
 def kullanicidanDegerAl():
@@ -118,7 +153,7 @@ def toplamAgirlikBul(comb):
     Bir kombinasyonun sahip oldugu toplam agirlik degerini dondurur
     """
     toplam = 0
-    if len(comb) is 1:
+    if len(comb) == 1:
         toplam = comb[0]
         return toplam
     else:
@@ -129,9 +164,10 @@ def toplamAgirlikBul(comb):
 
     # Program baslar
 if __name__ == "__main__":
-    # Kullanicidan alinan degerlerin alinmasi ve daha sonra kullanmak uzere degiskenlere atanmasi
-    kapasite, agirlik, degerler, esyaSayisi = kullanicidanDegerAl()
-    tumKombinasyonlar = everyPossibleCombination(agirlik, kapasite)
-    optimumKombinasyonIndex = combIndexBul(tumKombinasyonlar, agirlik)
-    optimumSonuc = maxValue(optimumKombinasyonIndex, degerler)
-    print("Optimum sonuc =", optimumSonuc)
+    if(__DEBUG__):
+        # Kullanicidan alinan degerlerin alinmasi ve daha sonra kullanmak uzere degiskenlere atanmasi
+        kapasite, agirlik, degerler, esyaSayisi = kullanicidanDegerAl()
+        tumKombinasyonlar = everyPossibleCombination(agirlik, kapasite)
+        optimumKombinasyonIndex = combIndexBul(tumKombinasyonlar, agirlik)
+        optimumSonuc = maxValue(optimumKombinasyonIndex, degerler)
+        print("Optimum sonuc =", optimumSonuc)
