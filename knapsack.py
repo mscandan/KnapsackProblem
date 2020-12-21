@@ -16,12 +16,20 @@ import os
 import tkinter as tk
 from tkinter.constants import CENTER
 
+import tkinter.messagebox as messagebox
+
 
 def degerleriDondur():
     """
     Hesapla butonu calistiginda kullanicinin girdigi derlerin alinmasi ve ekranda hesaplatilmasi
     """
-    print("calisti")
+    # ToDo:
+    #   form dizayni guncellenecek
+    #   Tum input alinan yerler bos mu dolu mu diye kontrol edilecek bossa uyari verilecek
+    #   Eger hicbir hata bulunamazsa program calistirlacak
+    #   Kullaniciya nasil girdi girmesi gerektigi gosterilecek
+    if e2.get() == "":
+        messagebox.showwarning("Uyari", "Uyari Ekrani")
     kapasitePure = int(
         e1.get())  # kullaninin girdigi kapasite degerinin alinmasi
     # kullanicinin girdigi agirlik degerlerinin alinmasi ve ',' karakterine gore bolunerek bir diziye atanmasi
