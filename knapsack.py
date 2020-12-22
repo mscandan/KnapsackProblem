@@ -26,7 +26,7 @@ def degerleriDondur():
     # kullanicinin deger girip girmedigini kontrol eder eger girmediyse ekrana uyari mesaji verir
     if e1.get() == "" or e2.get() == "" or e3.get == "" or e2.get() == "Örnek = 1,2,3" or e3.get() == "Örnek = 1,2,3":
         messagebox.showwarning("UYARI", "Kutular Boş Bırakılamaz !!!")
-    #degilse islemler devam eder
+    # degilse islemler devam eder
     else:
         # Kullanici bir hata ile karsilastiginda hatayi yakalamak icin try except yapisi kullanildi 
         try:
