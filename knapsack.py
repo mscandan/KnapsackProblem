@@ -10,12 +10,12 @@
     Çanta içinde taşınabilecek tüm maddelerin toplam ağırlığının en çok W olup, bunun bir üst sınır olup aşılamayacağı bilinir.
     https://tr.wikipedia.org/wiki/S%C4%B1rt_%C3%A7antas%C4%B1_problemi
 """
+
 from itertools import combinations
 import sys
 import os
 import tkinter as tk
 from tkinter.constants import CENTER
-
 import tkinter.messagebox as messagebox
 
 
@@ -26,9 +26,9 @@ def degerleriDondur():
     # kullanicinin deger girip girmedigini kontrol eder eger girmediyse ekrana uyari mesaji verir
     if e1.get() == "" or e2.get() == "" or e3.get == "" or e2.get() == "Örnek = 1,2,3" or e3.get() == "Örnek = 1,2,3":
         messagebox.showwarning("UYARI", "Kutular Boş Bırakılamaz !!!")
-    #degilse islemler devam eder
+    # degilse islemler devam eder
     else:
-        # Kullanici bir hata ile karsilastiginda hatayi yakalamak icin try except yapisi kullanildi 
+        # Kullanici bir hata ile karsilastiginda hatayi yakalamak icin try except yapisi kullanildi
         try:
             kapasitePure = int(
                 e1.get())  # kullaninin girdigi kapasite degerinin alinmasi
@@ -36,7 +36,7 @@ def degerleriDondur():
             agirliklarPure = e2.get().split(",")
             # kullanicinin girdigi value degerlerinin alinmasi ve ',' karakterine gore bolunerek bir diziye atanmasi
             valueDegerleriPure = e3.get().split(",")
-            # Kullanicidan alinan string degerlerin kullanilabilmesi icin int'e cevrilmesi 
+            # Kullanicidan alinan string degerlerin kullanilabilmesi icin int'e cevrilmesi
             agirliklarInt = []
             valueInt = []
             for i in agirliklarPure:
@@ -44,23 +44,27 @@ def degerleriDondur():
             for i in valueDegerleriPure:
                 valueInt.append(int(i))
 
-            tumKombinasyonlar = everyPossibleCombination(agirliklarInt, kapasitePure)
-            optimumKombinasyonIndex = combIndexBul(tumKombinasyonlar, agirliklarInt)
+            tumKombinasyonlar = everyPossibleCombination(
+                agirliklarInt, kapasitePure)
+            optimumKombinasyonIndex = combIndexBul(
+                tumKombinasyonlar, agirliklarInt)
             optimumSonuc = maxValue(optimumKombinasyonIndex, valueInt)
             # value degerleri ile agirlik degerleri sayisi esit degilse ekrana uyari mesaji verir eger esitse sonucu ekrana yazdirir
             if len(agirliklarInt) == len(valueInt):
                 outputLabel.config(text="Sonuç = " + str(optimumSonuc),
-                            bg = "green",
-                            fg  = "yellow")
+                                   bg="green",
+                                   fg="yellow")
             else:
-                messagebox.showwarning("UYARI", "Ağırlık ve value değerleri eşit sayıda olmalıdır !!!")
+                messagebox.showwarning(
+                    "UYARI", "Ağırlık ve value değerleri eşit sayıda olmalıdır !!!")
         # Kullanici Entry'lere istenilen disinda bir deger girdiginde hata mesaji verir
         except ValueError:
-            messagebox.showerror("HATA", "Hatalı Kullanıcı Girişi !!!\nKutuların yanında belirtilen şekilde kutuları doldurunuz !!!")
+            messagebox.showerror(
+                "HATA", "Hatalı Kullanıcı Girişi !!!\nKutuların yanında belirtilen şekilde kutuları doldurunuz !!!")
         # Kullanici deger sayilarini ayni sayida vermediginde ekrana hata mesaji verir
         except IndexError:
-            messagebox.showerror("HATA", "Hatalı Kullanıcı Girişi !!\nAğırlık ve value değerleri eşit sayıda olmalıdır !!!")
-
+            messagebox.showerror(
+                "HATA", "Hatalı Kullanıcı Girişi !!\nAğırlık ve value değerleri eşit sayıda olmalıdır !!!")
 
 
 def kullanicidanDegerAta(_kapasite, _agirliklar, _valueInt):
@@ -143,67 +147,69 @@ def toplamAgirlikBul(comb):
             toplam = toplam + int(comb[i])
         return toplam
 
+
 """
 GUI tasarimi
 """
 if os.environ.get('DISPLAY', '') == '':
     os.environ.__setitem__('DISPLAY', ':0.0')
 master = tk.Tk()
-#pencere basligimizi burada belirtiyoruz
+# pencere basligimizi burada belirtiyoruz
 master.title("Knapsack Algoritması")
-#pencere ilk acildigindaki boyutunu belirtiyoruz ve
+# pencere ilk acildigindaki boyutunu belirtiyoruz ve
 # + ile ekledigimiz ise pencere ilk acildiginda konumunu belirtiyoruz
-master.geometry("570x250+250+250")
-#pencerimizin boyutunu sabitlemek icin kullanildi
+master.geometry("650x250+250+250")
+# pencerimizin boyutunu sabitlemek icin kullanildi
 master.resizable(0, 0)
-#labeller olusturuluyor tasarimi ve konumu belirlendi
-tk.Label(master,text = "Pozitif sadece bir sayısal değer giriniz !!! ",
-                fg = "red",
-                font = ("Open Sans", "10", "bold")).grid(row = 1,column = 0)
+# Margin veriyoruz
+# labeller olusturuluyor tasarimi ve konumu belirlendi
+tk.Label(master, text="Pozitif sadece bir sayısal değer giriniz !!! ",
+         fg="red",
+         font=("Open Sans", "10", "bold")).grid(row=1, column=0)
 
-tk.Label(master,text = "Aralarını virgül ile ayırarak pozitif değerleri yazınız !!! ",
-                fg = "red",
-                font = ("Open Sans", "10", "bold")).grid(row = 3,column = 0)
+tk.Label(master, text="Aralarını virgül ile ayırarak pozitif değerleri yazınız !!! ",
+         fg="red",
+         font=("Open Sans", "10", "bold")).grid(row=3, column=0)
 
-tk.Label(master,text = "Aralarini virgul ile ayirarak pozitif değerleri yazınız !!!",
-                fg = "red",
-                font = ("Open Sans", "10", "bold")).grid(row = 5,column = 0)
-tk.Label(master, 
-        text="Sırt çantasi kapasitesi",
-        fg= "green",
-        bg = "yellow",
-        justify = "center",
-        width = 18,
-        height = 1,
-        font = ("Open Sans", "12", "italic")
-        ).grid(row=0,column = 1)
+tk.Label(master, text="Aralarini virgul ile ayirarak pozitif değerleri yazınız !!!",
+         fg="red",
+         font=("Open Sans", "10", "bold")).grid(row=5, column=0,)
+tk.Label(master,
+         text="Sırt çantasi kapasitesi",
+         fg="green",
+         bg="yellow",
+         justify="center",
+         width=18,
+         height=1,
+         font=("Open Sans", "12", "italic")
+         ).grid(row=0, column=1)
 tk.Label(master, text="Ağırlıklar",
-        fg= "green",
-        bg = "yellow",
-        justify = "center",
-        width = 18,
-        height = 1,
-        font = ("Open Sans", "12", "italic")
-        ).grid(row=2,column = 1)
+         fg="green",
+         bg="yellow",
+         justify="center",
+         width=18,
+         height=1,
+         font=("Open Sans", "12", "italic")
+         ).grid(row=2, column=1)
 tk.Label(master, text="Value Değerleri",
-        fg= "green",
-        bg = "yellow",
-        justify = "center",
-        width = 18,
-        height = 1,
-        font = ("Open Sans", "12", "italic")).grid(row=4,column = 1)
-outputLabel = tk.Label(master, text="Sonuç",    
-                       bg = "yellow",
-                       fg  = "green",
-                       width = 30,
-                       height = 2,
-                       font = ("Open Sans", "15", "bold"))
+         fg="green",
+         bg="yellow",
+         justify="center",
+         width=18,
+         height=1,
+         font=("Open Sans", "12", "italic")).grid(row=4, column=1)
+outputLabel = tk.Label(master, text="Sonuç",
+                       bg="yellow",
+                       fg="green",
+                       width=30,
+                       height=2,
+                       font=("Open Sans", "15", "bold"))
 outputLabel.grid(row=9, column=0)
 outputLabel.config(anchor=CENTER)
 # Kullanicinin girdi verecegi entryler yani kutucuklar olusturuldu
-e1 = tk.Entry(master, width = 20,font = ("Open Sans", "11", "italic"))
-e2 = tk.Entry(master,width =20,font = ("Open Sans", "11", "italic"))
-e3 = tk.Entry(master,width = 20,font = ("Open Sans", "11", "italic"))
+e1 = tk.Entry(master, width=20, font=("Open Sans", "11", "italic"))
+e2 = tk.Entry(master, width=20, font=("Open Sans", "11", "italic"))
+e3 = tk.Entry(master, width=20, font=("Open Sans", "11", "italic"))
 # Kutularin ici program acildiginda asagida verilen string ifade ile acilacaktir
 e2.insert(0, "Örnek = 1,2,3")
 e3.insert(1, "Örnek = 1,2,3")
@@ -213,14 +219,14 @@ e2.grid(row=3, column=1)
 e3.grid(row=5, column=1)
 # Buton olusturuldu tasarimi duzenlendi ve tiklandiginda degerleriDondur fonksiyonunu calistirir
 tk.Button(master,
-          text='Hesapla', command=degerleriDondur, 
-          bg = "pink",
-          fg = "black",
-          width = 15,
-          height = 1,
-          font = ("Open Sans", "11", "normal")).grid(row=6,
-                                                        column=1,
-                                                        sticky=tk.W,
-                                                        pady=4,
-                                                        padx=30)
+          text='Hesapla', command=degerleriDondur,
+          bg="pink",
+          fg="black",
+          width=15,
+          height=1,
+          font=("Open Sans", "11", "normal")).grid(row=6,
+                                                   column=1,
+                                                   sticky=tk.W,
+                                                   pady=4,
+                                                   padx=30)
 tk.mainloop()
