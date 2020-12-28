@@ -1,15 +1,6 @@
 # Mehmet Selçuk Candan B171210104 selcuk.candan@ogr.sakarya.edu.tr
 # Serhat Burak Altinsoy B161210010 serhat.altinsoy@ogr.sakarya.edu.tr
 
-"""
-    Knapsack Problemi
-    Sırt çantası problemi (İngilizce: "knapsack problem") bir klasik yöneylem araştırması ve matematiksel olarak "kombinatorik optimizasyon" problemidir.
-    Çözüm algoritması bakımından sırt çantası problemi en ünlü NP-hard problemleri arasındadır.
-    Sırt çantası problemi"nin tanımlanması için şu notasyon kullanılmaktadır: İsimleri 1 ile n arasında sayı ile ifade edilen n değişik madde bulunur.
-    Her bir madde i için değerinin vi ve ağırlığının wi olduğu bilinmektedir. Genel olarak her bir değer ve her bir ağırlık negatif olamazlar.
-    Çanta içinde taşınabilecek tüm maddelerin toplam ağırlığının en çok W olup, bunun bir üst sınır olup aşılamayacağı bilinir.
-    https://tr.wikipedia.org/wiki/S%C4%B1rt_%C3%A7antas%C4%B1_problemi
-"""
 
 from itertools import combinations
 import sys
